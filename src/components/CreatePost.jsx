@@ -67,7 +67,6 @@ function CreatePost() {
       });
       const data = await res.json();
       if (data.error) {
-        console.log(data.error);
         toast({
           title: "Error",
           description: data.error,
@@ -75,7 +74,6 @@ function CreatePost() {
         });
         return;
       }
-      console.log(data);
 
       toast({
         title: "Post created successfully!",
@@ -95,14 +93,11 @@ function CreatePost() {
   return (
     <>
       <Button
-        position="fixed"
-        bottom={10}
-        right={10}
-        leftIcon={<AddIcon />}
-        bg={useColorModeValue("gray.300", "gray.dark")}
         onClick={onOpen}
+        size={"sm"}
+        bg={useColorModeValue("gray.300", "gray.dark")}
       >
-        Post
+        <AddIcon />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

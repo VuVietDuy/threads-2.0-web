@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import UserHeader from "../components/UserHeader";
-import UserPost from "../components/UserPost";
 import { useParams } from "react-router-dom";
 import { Flex, Spinner, useToast } from "@chakra-ui/react";
 import PostCard from "../components/PostCard";
@@ -77,7 +76,10 @@ function UserPage() {
           <Spinner size={"xl"} />
         </Flex>
       )}
-      {posts && posts.map((post) => <PostCard key={post._id} post={post} />)}
+      {posts &&
+        posts.map((post) => (
+          <PostCard key={post._id} post={post} setPosts={setPosts} />
+        ))}
     </div>
   );
 }

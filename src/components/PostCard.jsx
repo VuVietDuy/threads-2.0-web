@@ -1,12 +1,68 @@
-import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import Actions from "./Actions";
 import { formatDistanceToNow } from "date-fns";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 function PostCard({ post }) {
   const navgate = useNavigate();
+  const currentUser = useRecoilValue(userAtom);
+  const toast = useToast();
+
+  const handleDeletePost = async () => {
+    try {
+      if (!window.confirm("Are you sure you want to delete this post")) return;
+
+      const res = await fetch(`/api/posts/${post._id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        toast({
+          title: "Error",
+          description: errorData.error || "Failed to delete post",
+          status: "error",
+        });
+        return;
+      }
+      const data = await res.json();
+      if (data.error) {
+        toast({
+          title: "Error",
+          description: data.error,
+          status: "error",
+        });
+        return;
+      }
+      toast({
+        title: "Post deleted",
+        description: "Your post has been deleted successfully",
+        status: "success",
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to delete post",
+        status: "error",
+      });
+    }
+  };
 
   return (
     <Flex gap={3} mb={4} py={5}>
@@ -73,7 +129,22 @@ function PostCard({ post }) {
             <Text fontSize="xs" color="gray.light" isTruncated>
               {formatDistanceToNow(post.createdAt)}
             </Text>
-            <BsThreeDots />
+            <Menu>
+              <MenuButton>
+                <BsThreeDots />
+              </MenuButton>
+              <Portal>
+                <MenuList bg={"gray.dark"}>
+                  <MenuItem bg={"gray.dark"}>Copy URL</MenuItem>
+                  <MenuItem bg={"gray.dark"}>Settings</MenuItem>
+                  {currentUser?._id === post?.postedBy._id && (
+                    <MenuItem bg={"gray.dark"} onClick={handleDeletePost}>
+                      Delete
+                    </MenuItem>
+                  )}
+                </MenuList>
+              </Portal>
+            </Menu>
           </Flex>
         </Flex>
         <Link to={`/${post.postedBy.username}/post/${post._id}`}>

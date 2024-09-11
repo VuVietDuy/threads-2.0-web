@@ -9,3 +9,24 @@
 .icon-container:hover {
   background-color: #1e1e1e;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: transparent;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #616161;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

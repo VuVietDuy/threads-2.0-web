@@ -79,8 +79,6 @@ function UserHeader({ user }) {
       }
 
       setFollowing(!following);
-
-      console.log("User followed successfully:", user.name);
     } catch (e) {
       console.error("Failed to follow user:", e);
     } finally {

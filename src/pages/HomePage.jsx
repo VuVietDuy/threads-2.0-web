@@ -21,9 +21,7 @@ function HomePage() {
           });
         }
         setPosts(data);
-        console.log(data);
       } catch (e) {
-        console.error(e);
         toast({
           title: "An error occurred",
           description: "Please try again later.",

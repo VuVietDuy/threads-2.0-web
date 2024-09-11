@@ -41,7 +41,6 @@ export default function LoginCard() {
       });
       const data = await res.json();
       if (data.error) {
-        console.log(data.error);
         toast({
           title: "Error",
           description: data.error,

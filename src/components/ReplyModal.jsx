@@ -47,7 +47,6 @@ function ReplyModal({ isOpen, onClose, post, setPost }) {
         status: "success",
       });
     } catch (err) {
-      console.error(err);
       toast({
         title: "Error",
         description: "Failed to reply",
